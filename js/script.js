@@ -5,6 +5,11 @@ var typed = new Typed(".typing", {
     loop:true
 })
 
+const logo = document.querySelector(".logo");
+logo.addEventListener("click", function(){
+    location.reload();
+})
+
 const nav = document.querySelector(".nav"),
     navList = nav.querySelectorAll("li"),
     totalNavList = navList.length,
@@ -14,7 +19,7 @@ const nav = document.querySelector(".nav"),
     for(let i = 0; i < totalNavList; i++){
         const a = navList[i].querySelector("a");
         a.addEventListener("click", function() {
-            
+
             removeBackSection();
             for(let j = 0; j <totalNavList; j++){
                 if(navList[j].querySelector("a").classList.contains("active")){
