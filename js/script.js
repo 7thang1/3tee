@@ -7,7 +7,7 @@ var typed = new Typed(".typing", {
 
 const logo = document.querySelector(".logo");
 logo.addEventListener("click", function(){
-    location.reload();
+    window.location.reload();
 })
 
 const nav = document.querySelector(".nav"),
