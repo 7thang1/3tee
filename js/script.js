@@ -1,95 +1,25 @@
-var typed = new Typed(".typing", {
-  strings: [
-    "",
-    "Backend",
-    "DevOps",
-    "Cloud Technology",
-    "Mobile App",
-    "Solution Architecture",
-    "Full Stack",
-  ],
-  typeSpeed: 200,
-  BackSpeed: 180,
-  loop: true,
-});
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 
-const logo = document.querySelector(".logo");
-logo.addEventListener("click", function () {
-  window.location.reload();
-});
+const targetDate = new Date(2024, 4, 1);
 
-const nav = document.querySelector(".nav"),
-  navList = nav.querySelectorAll("li"),
-  totalNavList = navList.length,
-  allSection = document.querySelectorAll(".section"),
-  totalSection = allSection.length;
+const updateTimer = () => {
+  const now = new Date();
+  const diff = targetDate.getTime() - now.getTime();
 
-for (let i = 0; i < totalNavList; i++) {
-  const a = navList[i].querySelector("a");
-  a.addEventListener("click", function () {
-    removeBackSection();
-    for (let j = 0; j < totalNavList; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {
-        addBackSection(j);
-      }
-      navList[j].querySelector("a").classList.remove("active");
-    }
-    this.classList.add("active");
-    showSection(this);
-    if (window.innerWidth < 1200) {
-      asideSectionTogglerBtn();
-    }
-  });
-}
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-function showSection(element) {
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.remove("active");
-  }
-  const target = element.getAttribute("href").split("#")[1];
-  document.querySelector("#" + target).classList.add("active");
-}
+  // Ensure display formatting (leading zeros)
+  daysEl.textContent = days.toString().padStart(2, "0");
+  hoursEl.textContent = hours.toString().padStart(2, "0");
+  minutesEl.textContent = minutes.toString().padStart(2, "0");
+  secondsEl.textContent = seconds.toString().padStart(2, "0");
+};
 
-function addBackSection(num) {
-  allSection[num].classList.add("back-section");
-}
-
-function removeBackSection() {
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.remove("back-section");
-  }
-}
-
-function updateNav(element) {
-  for (let i = 0; i < totalNavList; i++) {
-    navList[i].querySelector("a").classList.remove("active");
-    const target = element.getAttribute("href").split("#")[1];
-    if (
-      target ===
-      navList[i].querySelector("active").getAttribute("href").split("#")[1]
-    ) {
-      navList[i].querySelector("a").classList.remove("active");
-    }
-  }
-}
-
-document.querySelector(".hire-me").addEventListener("click", function () {
-  const sectionIndex = this.getAttribute("data=section-index");
-  showSection(this);
-  updateNav(this);
-  removeBackSection();
-  addBackSection(sectionIndex);
-});
-
-const navTogglerBtn = document.querySelector(".nav-toggler"),
-  aside = document.querySelector(".aside");
-navTogglerBtn.addEventListener("click", () => {
-  asideSectionTogglerBtn();
-});
-function asideSectionTogglerBtn() {
-  aside.classList.toggle("open");
-  navTogglerBtn.classList.toggle("open");
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.toggle("open");
-  }
-}
+updateTimer();
+setInterval(updateTimer, 1000);
